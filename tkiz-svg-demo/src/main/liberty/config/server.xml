@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="Bean Configuration Manager">
+
+    <featureManager>
+        <feature>jaxrs-2.0</feature>
+    </featureManager>
+
+    <httpEndpoint id="defaultHttpEndpoint"
+                  httpPort="8100"
+                  httpsPort="-1" />
+
+    <webApplication contextRoot="/" location="tkiz-svg-demo.war"/>
+
+</server>
