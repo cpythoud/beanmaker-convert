@@ -2,6 +2,8 @@ package org.beanmaker.converters.lib;
 
 import org.beanmaker.v2.runtime.HttpRequestParameters;
 
+import org.json.JSONObject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,11 +13,13 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
+
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import java.io.File;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -25,18 +29,20 @@ public abstract class ConverterService {
 
     private final Path parentWorkDir;
     private final Path parentResultDir;
+    private final Path parentErrorDir;
 
-    public ConverterService(Path parentWorkDir, Path parentResultDir) {
+    public ConverterService(Path parentWorkDir, Path parentResultDir, Path parentErrorDir) {
         this.parentWorkDir = parentWorkDir;
         this.parentResultDir = parentResultDir;
+        this.parentErrorDir = parentErrorDir;
     }
 
-    public ConverterService(String parentWorkDir, String parentResultDir) {
-        this(Path.of(parentWorkDir), Path.of(parentResultDir));
+    public ConverterService(String parentWorkDir, String parentResultDir, String parentErrorDir) {
+        this(Path.of(parentWorkDir), Path.of(parentResultDir), Path.of(parentErrorDir));
     }
 
-    public ConverterService(File parentWorkDir, File parentResultDir) {
-        this(parentWorkDir.toPath(), parentResultDir.toPath());
+    public ConverterService(File parentWorkDir, File parentResultDir, File parentErrorDir) {
+        this(parentWorkDir.toPath(), parentResultDir.toPath(), parentErrorDir.toPath());
     }
 
     protected Path getParentWorkDir() {
@@ -47,12 +53,20 @@ public abstract class ConverterService {
         return parentResultDir;
     }
 
+    protected Path getParentErrorDir() {
+        return parentErrorDir;
+    }
+
     protected Path getWorkDir(FileCode code) {
         return getParentWorkDir().resolve(code.getCode());
     }
 
     protected Path getResultDir(FileCode code) {
         return getParentResultDir().resolve(code.getCode());
+    }
+
+    protected Path getErrorDir(FileCode code) {
+        return getParentErrorDir().resolve(code.getCode());
     }
 
     @POST
@@ -68,7 +82,7 @@ public abstract class ConverterService {
                 throw new WebApplicationException("No file", Response.Status.BAD_REQUEST);
 
             var fileItem = params.getFileItem("file");
-            var code = new FileCode();
+            var code = FileCode.create();
             var workdir = getWorkDir(code);
             Files.createDirectory(workdir);
             logger.info("Created directory: {}", workdir);
@@ -79,6 +93,29 @@ public abstract class ConverterService {
             forkConversion(code);
 
             return Response.status(Response.Status.OK).entity(code.jsonResponse()).build();
+        } catch (WebApplicationException ex) {
+            logger.error(ex.getMessage(), ex);
+            throw ex;
+        } catch (Exception ex) {
+            logger.error(ex.getMessage(), ex);
+            throw new WebApplicationException(ex, Response.Status.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @POST
+    @javax.ws.rs.Path("/status")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response checkStatus(String jsonInput) {
+        try {
+            JSONObject inputObj = new JSONObject(jsonInput);
+            if (!inputObj.has("reference"))
+                throw new WebApplicationException("No reference", Response.Status.BAD_REQUEST);
+
+            var code = FileCode.from(inputObj.getString("reference"));
+            var status = ConversionStatus.getStatus(getWorkDir(code), getResultDir(code), getErrorDir(code));
+
+            return Response.ok(status.toJson(), MediaType.APPLICATION_JSON).build();
         } catch (WebApplicationException ex) {
             logger.error(ex.getMessage(), ex);
             throw ex;

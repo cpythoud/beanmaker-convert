@@ -14,7 +14,10 @@ public class App extends Application {
 
     public App() {
         singletons.add( new Hello());
-        singletons.add(new TkizToSvg("/home/chris/Prov/tkiz2svg/work", "/home/chris/tkiz2svg/result"));
+        singletons.add(new TkizToSvg(
+                 "/home/chris/Prov/tkiz2svg/work",
+                "/home/chris/Prov/tkiz2svg/result",
+                 "/home/chris/Prov/tkiz2svg/error"));
     }
 
     @Override

@@ -1,0 +1,7 @@
+### Check Status
+POST http://localhost:8100/convert/tkiz2svg/status
+Content-Type: application/json
+
+{
+  "reference": "20241119133148221-GQnRxpHzwYUQJRkG"
+}

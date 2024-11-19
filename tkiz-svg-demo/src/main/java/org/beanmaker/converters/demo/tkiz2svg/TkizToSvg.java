@@ -13,8 +13,8 @@ public class TkizToSvg extends ConverterService {
 
     final Logger logger = LoggerFactory.getLogger(TkizToSvg.class);
 
-    public TkizToSvg(String workDir, String resultDir) {
-        super(workDir, resultDir);
+    public TkizToSvg(String workDir, String resultDir, String errorDir) {
+        super(workDir, resultDir, errorDir);
     }
 
     @Override

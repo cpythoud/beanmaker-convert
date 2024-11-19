@@ -26,6 +26,10 @@
             <artifactId>javax.ws.rs-api</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+        </dependency>
+        <dependency>
             <groupId>rodeo.password</groupId>
             <artifactId>password-rodeo</artifactId>
         </dependency>
