@@ -12,4 +12,31 @@
 
     <name>converters-lib</name>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>rodeo.password</groupId>
+            <artifactId>password-rodeo</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.beanmaker</groupId>
+            <artifactId>beanmaker2-util</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.beanmaker</groupId>
+            <artifactId>beanmaker2-runtime</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>

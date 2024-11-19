@@ -15,8 +15,28 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+        <dependency>
             <groupId>javax.ws.rs</groupId>
             <artifactId>javax.ws.rs-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.beanmaker</groupId>
+            <artifactId>beanmaker2-runtime</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.beanmaker</groupId>
+            <artifactId>converters-lib</artifactId>
         </dependency>
     </dependencies>
 
