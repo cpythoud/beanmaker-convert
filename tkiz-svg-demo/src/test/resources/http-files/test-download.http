@@ -1,0 +1,7 @@
+### Test Download
+POST http://localhost:8100/convert/tkiz2svg/download
+Content-Type: application/json
+
+{
+  "reference": "20241119135341307-AECeBGSIUsMDZPwN"
+}

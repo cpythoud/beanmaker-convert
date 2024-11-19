@@ -2,8 +2,13 @@ package org.beanmaker.converters.lib;
 
 import org.beanmaker.v2.util.Dates;
 
+import org.json.JSONObject;
+
 import rodeo.password.pgencheck.CharacterGroups;
 import rodeo.password.pgencheck.PasswordMaker;
+
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
 
 public final class FileCode {
 
@@ -20,8 +25,12 @@ public final class FileCode {
         return new FileCode(Dates.getMeaningfulTimeStamp() + "-" + TAIL_CHARS_GENERATOR.create());
     }
 
-    public static FileCode from(String code) {
-        return new FileCode(code);
+    public static FileCode fromJson(String json) {
+        JSONObject inputObj = new JSONObject(json);
+        if (!inputObj.has("reference"))
+            throw new WebApplicationException("No reference", Response.Status.BAD_REQUEST);
+
+        return new FileCode(inputObj.getString("reference"));
     }
 
     private FileCode(String code) {

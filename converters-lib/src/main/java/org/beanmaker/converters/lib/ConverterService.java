@@ -2,8 +2,6 @@ package org.beanmaker.converters.lib;
 
 import org.beanmaker.v2.runtime.HttpRequestParameters;
 
-import org.json.JSONObject;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -108,14 +106,36 @@ public abstract class ConverterService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response checkStatus(String jsonInput) {
         try {
-            JSONObject inputObj = new JSONObject(jsonInput);
-            if (!inputObj.has("reference"))
-                throw new WebApplicationException("No reference", Response.Status.BAD_REQUEST);
-
-            var code = FileCode.from(inputObj.getString("reference"));
+            var code = FileCode.fromJson(jsonInput);
             var status = ConversionStatus.getStatus(getWorkDir(code), getResultDir(code), getErrorDir(code));
-
             return Response.ok(status.toJson(), MediaType.APPLICATION_JSON).build();
+        } catch (WebApplicationException ex) {
+            logger.error(ex.getMessage(), ex);
+            throw ex;
+        } catch (Exception ex) {
+            logger.error(ex.getMessage(), ex);
+            throw new WebApplicationException(ex, Response.Status.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @POST
+    @javax.ws.rs.Path("/download")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.WILDCARD)
+    public Response downloadFile(String jsonInput) {
+        try {
+            var code = FileCode.fromJson(jsonInput);
+            var resultDir = getResultDir(code);
+            var fileDetail = SingleFileRetriever.getSingleFile(resultDir);
+
+            String contentType = Files.probeContentType(fileDetail.path());
+            if (contentType == null) {
+                contentType = "application/octet-stream";
+            }
+
+            var response = Response.ok(fileDetail.path().toFile(), contentType);
+            response.header("Content-Disposition", "attachment; filename=\"" + fileDetail.fileName() + "\"");
+            return response.build();
         } catch (WebApplicationException ex) {
             logger.error(ex.getMessage(), ex);
             throw ex;
