@@ -38,6 +38,10 @@
             <groupId>org.beanmaker</groupId>
             <artifactId>converters-lib</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.texngine</groupId>
+            <artifactId>texngine-core</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

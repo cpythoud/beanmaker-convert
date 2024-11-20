@@ -88,6 +88,8 @@ public abstract class ConverterService {
             Files.copy(fileItem.getInputStream(), path);
             logger.info("Copied file: {}", path);
 
+            // TODO: add file validation (type, content, size, etc.), should call an abstract function
+
             forkConversion(code);
 
             return Response.status(Response.Status.OK).entity(code.jsonResponse()).build();
@@ -146,5 +148,23 @@ public abstract class ConverterService {
     }
 
     protected abstract void forkConversion(FileCode code);
+
+    private class ConversionExceptionHandler implements Thread.UncaughtExceptionHandler {
+        @Override
+        public void uncaughtException(Thread thread, Throwable throwable) {
+            String msg = "An exception occurred while gathering data to compose audit report in thread "
+                    + thread.getName() + " (#" + thread.threadId() + ")";
+            logger.error(msg, throwable);
+            throw new WebApplicationException(msg, Response.Status.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private final Thread.Builder conversionThreadBuilder = Thread.ofVirtual()
+            .name("Converter-Thread")
+            .uncaughtExceptionHandler(new ConversionExceptionHandler());
+
+    protected void fork(Runnable runnable) {
+        conversionThreadBuilder.start(runnable);
+    }
 
 }

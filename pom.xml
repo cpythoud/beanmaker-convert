@@ -78,6 +78,11 @@
                 <artifactId>converters-lib</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
+            <dependency>
+                <groupId>org.texngine</groupId>
+                <artifactId>texngine-core</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
