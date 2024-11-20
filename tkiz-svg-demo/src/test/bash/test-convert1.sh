@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
-curl -X POST http://localhost:8100/convert/tkiz2svg/upload \
+curl -X POST http://localhost:8080/convert/tkiz2svg/upload \
 -H "Content-Type: multipart/form-data" \
 -F "file=@/home/chris/Prov/tkiz2svg/source/radar.tex"

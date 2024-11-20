@@ -9,15 +9,18 @@ import java.util.Set;
 @ApplicationPath("/convert")
 public class App extends Application {
 
+    private static final String BASE_DIR = "/home/chris/Prov/tkiz2svg/";
+
     private final Set<Class<?>> classes = new HashSet<>();
     private final Set<Object> singletons = new HashSet<>();
 
     public App() {
         singletons.add( new Hello());
         singletons.add(new TkizToSvg(
-                 "/home/chris/Prov/tkiz2svg/work",
-                "/home/chris/Prov/tkiz2svg/result",
-                 "/home/chris/Prov/tkiz2svg/error"));
+                BASE_DIR + "work",
+                BASE_DIR + "result",
+                BASE_DIR + "error")
+        );
     }
 
     @Override
