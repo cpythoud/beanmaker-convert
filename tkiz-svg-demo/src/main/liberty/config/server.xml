@@ -2,10 +2,12 @@
 <server description="Bean Configuration Manager">
 
     <featureManager>
-        <feature>jaxrs-2.0</feature>
+        <!--<feature>jaxrs-2.0</feature>-->
+        <feature>webProfile-7.0</feature>
     </featureManager>
 
     <httpEndpoint id="defaultHttpEndpoint"
+                  host="*"
                   httpPort="8080"
                   httpsPort="-1" />
 
