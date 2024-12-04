@@ -21,6 +21,7 @@
     <modules>
         <module>converters-lib</module>
         <module>tkiz-svg-demo</module>
+        <module>tkiz-svg-demo-client</module>
     </modules>
 
     <dependencyManagement>
