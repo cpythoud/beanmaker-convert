@@ -1,4 +1,4 @@
-package org.beanmaker.converters.lib.client;
+package org.beanmaker.converters.client;
 
 import java.io.File;
 import java.nio.file.Path;

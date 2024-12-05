@@ -1,6 +1,6 @@
 package org.beanmaker.converters.demo.tkiz2svg.client;
 
-import org.beanmaker.converters.lib.client.ConversionJobCreator;
+import org.beanmaker.converters.client.ConversionJobCreator;
 
 public class App {
 

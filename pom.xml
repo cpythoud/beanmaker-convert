@@ -20,6 +20,7 @@
 
     <modules>
         <module>converters-lib</module>
+        <module>converters-client-lib</module>
         <module>tkiz-svg-demo</module>
         <module>tkiz-svg-demo-client</module>
     </modules>
@@ -77,6 +78,11 @@
             <dependency>
                 <groupId>org.beanmaker</groupId>
                 <artifactId>converters-lib</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.beanmaker</groupId>
+                <artifactId>converters-client-lib</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
             <dependency>
