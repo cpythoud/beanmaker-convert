@@ -6,8 +6,8 @@ import org.beanmaker.converters.lib.SingleFileRetriever;
 
 import org.beanmaker.v2.util.Files;
 import org.beanmaker.v2.util.Processes;
+import org.beanmaker.v2.util.SVG;
 import org.beanmaker.v2.util.Strings;
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +18,9 @@ import org.texngine.TeXCommand;
 import org.texngine.TeXngine;
 
 import javax.ws.rs.Path;
+import javax.ws.rs.WebApplicationException;
+
+import java.io.IOException;
 
 import java.util.ArrayList;
 
@@ -96,10 +99,18 @@ public class TkizToSvg extends ConverterService {
             var commandAndArguments = new ArrayList<String>();
             commandAndArguments.add("/usr/bin/pdf2svg");
             commandAndArguments.add(workingDir.resolve(pdfFilename).toAbsolutePath().toString());
-            commandAndArguments.add(workingDir.resolve(svgFilename).toAbsolutePath().toString());
+            var svgFilePath = workingDir.resolve(svgFilename);
+            commandAndArguments.add(svgFilePath.toAbsolutePath().toString());
 
-            logger.info("Executing pdf2svg command: {}", Strings.concatWithSeparator("",  commandAndArguments));
+            logger.info("Executing pdf2svg command: {}", Strings.concatWithSeparator(" ",  commandAndArguments));
             Processes.runExternalProcess(commandAndArguments);
+            try {
+                logger.info("Removing width and height from converted svg file: {}", svgFilePath.toAbsolutePath());
+                SVG.removeWidthAndHeight(svgFilePath, svgFilePath);
+            } catch (IOException e) {
+                logger.error("Could not remove width and height from converted svg file", e);
+                throw new WebApplicationException(e);
+            }
         }
     }
 

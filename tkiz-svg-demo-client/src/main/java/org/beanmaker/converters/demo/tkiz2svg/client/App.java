@@ -4,8 +4,8 @@ import org.beanmaker.converters.client.ConversionJobCreator;
 
 public class App {
 
-    //private static final String BASE_URL = "http://localhost:8080/convert/tkiz2svg";
-    private static final String BASE_URL = "http://london3.texngine.org:8080/convert/tkiz2svg";
+    private static final String BASE_URL = "http://localhost:8080/convert/tkiz2svg";
+    //private static final String BASE_URL = "http://london3.texngine.org:8080/convert/tkiz2svg";
     private static final String TEST_SOURCE_FILENAME = "/home/chris/Prov/tkiz2svg/test-client/source/radar.tex";
     private static final String TEST_DESTINATION_FILENAME = "/home/chris/Prov/tkiz2svg/test-client/result/radar.svg";
 
