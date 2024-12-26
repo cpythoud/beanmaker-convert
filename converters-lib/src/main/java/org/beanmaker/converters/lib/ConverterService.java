@@ -79,13 +79,13 @@ public abstract class ConverterService {
             if (!params.hasFiles())
                 throw new WebApplicationException("No file", Response.Status.BAD_REQUEST);
 
-            var fileItem = params.getFileItem("file");
+            var uploadedFile = params.getUploadedFile("file");
             var code = FileCode.create();
             var workdir = getWorkDir(code);
             Files.createDirectory(workdir);
             logger.info("Created directory: {}", workdir);
-            var path = workdir.resolve(fileItem.getName());
-            Files.copy(fileItem.getInputStream(), path);
+            var path = workdir.resolve(uploadedFile.getFilename());
+            Files.copy(uploadedFile.getInputStream(), path);
             logger.info("Copied file: {}", path);
 
             // TODO: add file validation (type, content, size, etc.), should call an abstract function
