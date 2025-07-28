@@ -194,4 +194,18 @@
             </plugins>
         </pluginManagement>
     </build>
+
+    <distributionManagement>
+        <repository>
+            <id>beanmaker-releases</id>
+            <name>Beanmaker Releases</name>
+            <url>https://repository.beanmaker.org/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>beanmaker-snapshots</id>
+            <name>Beanmaker Snapshots</name>
+            <url>https://repository.beanmaker.org/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
 </project>
